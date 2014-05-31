@@ -13,11 +13,12 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>cd /projects/www/service-layer/tests;
+      <command>cp -rf /projects/www/service-layer ./;
+cd service-layer/tests;
 phpunit;
 cd behat/plane;
 behat -o /projects/jenkins/jobs/service-layer/workspace/report.html
-pwd;</command>
+</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

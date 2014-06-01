@@ -15,8 +15,20 @@
     <hudson.tasks.Shell>
       <command>rm -rf service-layer;
 cp -rf /projects/www/service-layer ./;
-cd service-layer/tests;
 
+mysql -u root -pabn -e &quot;DROP DATABASE planeonline_ci&quot;;
+mysql -u root -pabn -e &quot;CREATE SCHEMA planeonline_ci DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci&quot;;
+mysql -u root -pabn -e &quot;GRANT ALL ON planeonline_ci.* TO &apos;planeuser_ci&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;planepass&apos;&quot;;
+
+mysql -u root -pabn -e &quot;DROP DATABASE planeonline_ci_test&quot;;
+mysql -u root -pabn -e &quot;CREATE SCHEMA planeonline_ci_test DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci&quot;;
+mysql -u root -pabn -e &quot;GRANT ALL ON planeonline_ci_test.* TO &apos;planeuser_cit&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;planepass&apos;&quot;;
+  
+cd service-layer/app;
+/opt/phinx/bin/phinx migrate -e ci;
+/opt/phinx/bin/phinx migrate -e ci_test;
+
+cd ../tests;
 phpunit --coverage-html /projects/jenkins/jobs/service-layer/workspace/codecoverage --coverage-clover /projects/jenkins/jobs/service-layer/workspace/codeclover.xml;
 cd behat/plane;
 behat -o /projects/jenkins/jobs/service-layer/workspace/report.html

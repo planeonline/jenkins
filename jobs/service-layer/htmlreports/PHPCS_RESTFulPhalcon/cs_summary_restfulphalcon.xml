@@ -1,0 +1,15 @@
+PHP CODE SNIFFER REPORT SUMMARY
+--------------------------------------------------------------------------------
+FILE                                                            ERRORS  WARNINGS
+--------------------------------------------------------------------------------
+...ace/service-layer/library/RESTFulPhalcon/RestController.php  27      9
+...orkspace/service-layer/library/RESTFulPhalcon/RestModel.php  6       0
+...ervice-layer/library/RESTFulPhalcon/RestModel/Validator.php  15      1
+...service-layer/library/RESTFulPhalcon/RestModelValidator.php  14      1
+...kspace/service-layer/library/RESTFulPhalcon/RestRequest.php  26      1
+...e-layer/library/RESTFulPhalcon/RestRequest/RestCriteria.php  23      5
+...space/service-layer/library/RESTFulPhalcon/RestResponse.php  17      1
+.../library/RESTFulPhalcon/RestResponse/RestResponseResult.php  19      1
+--------------------------------------------------------------------------------
+A TOTAL OF 147 ERROR(S) AND 19 WARNING(S) WERE FOUND IN 8 FILE(S)
+--------------------------------------------------------------------------------

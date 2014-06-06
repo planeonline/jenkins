@@ -16,6 +16,7 @@
       <command>rm -rf service-layer;
 cp -rf /projects/www/service-layer ./;
 
+
 mysql -u root -pabn -e &quot;DROP DATABASE planeonline_ci&quot;;
 mysql -u root -pabn -e &quot;CREATE SCHEMA planeonline_ci DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci&quot;;
 mysql -u root -pabn -e &quot;GRANT ALL ON planeonline_ci.* TO &apos;planeuser_ci&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;planepass&apos;&quot;;
@@ -30,12 +31,40 @@ cd service-layer/app;
 
 cd ../tests;
 phpunit --coverage-html /projects/jenkins/jobs/service-layer/workspace/codecoverage --coverage-clover /projects/jenkins/jobs/service-layer/workspace/codeclover.xml;
-cd behat/plane;
-behat -o /projects/jenkins/jobs/service-layer/workspace/report.html
-</command>
+
+#cd behat/plane;
+#behat -o /projects/jenkins/jobs/service-layer/workspace/report.html;
+
+cd /projects/jenkins/jobs/service-layer/workspace;
+phpcs --report=checkstyle service-layer/library/RESTFulPhalcon/ --report-file=&quot;/projects/jenkins/jobs/service-layer/workspace/checkstyle-result.xml&quot;;
+#phpcs --report=summary service-layer/library/RESTFulPhalcon/ --report-file=/projects/jenkins/jobs/service-layer/workspace/cs_summary_restfulphalcon.txt;</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
+    <hudson.plugins.checkstyle.CheckStylePublisher plugin="checkstyle@3.39">
+      <healthy>15</healthy>
+      <unHealthy>30</unHealthy>
+      <thresholdLimit>low</thresholdLimit>
+      <pluginName>[CHECKSTYLE] </pluginName>
+      <defaultEncoding></defaultEncoding>
+      <canRunOnFailed>true</canRunOnFailed>
+      <useStableBuildAsReference>false</useStableBuildAsReference>
+      <useDeltaValues>false</useDeltaValues>
+      <thresholds plugin="analysis-core@1.56">
+        <unstableTotalAll>15</unstableTotalAll>
+        <unstableTotalHigh>2</unstableTotalHigh>
+        <unstableTotalNormal>3</unstableTotalNormal>
+        <unstableTotalLow>10</unstableTotalLow>
+        <failedTotalAll>30</failedTotalAll>
+        <failedTotalHigh>4</failedTotalHigh>
+        <failedTotalNormal>6</failedTotalNormal>
+        <failedTotalLow>20</failedTotalLow>
+      </thresholds>
+      <shouldDetectModules>false</shouldDetectModules>
+      <dontComputeNew>true</dontComputeNew>
+      <doNotResolveRelativePaths>false</doNotResolveRelativePaths>
+      <pattern>checkstyle-result.xml</pattern>
+    </hudson.plugins.checkstyle.CheckStylePublisher>
     <org.jenkinsci.plugins.cloverphp.CloverPHPPublisher plugin="cloverphp@0.3.3">
       <publishHtmlReport>true</publishHtmlReport>
       <reportDir>codecoverage</reportDir>
@@ -59,10 +88,10 @@ behat -o /projects/jenkins/jobs/service-layer/workspace/report.html
           <wrapperName>htmlpublisher-wrapper.html</wrapperName>
         </htmlpublisher.HtmlPublisherTarget>
         <htmlpublisher.HtmlPublisherTarget>
-          <reportName>Code Coverage</reportName>
-          <reportDir>/projects/jenkins/jobs/service-layer/workspace/codecoverage</reportDir>
-          <reportFiles>index.html</reportFiles>
-          <keepAll>true</keepAll>
+          <reportName>PHPCS RESTFulPhalcon</reportName>
+          <reportDir>/projects/jenkins/jobs/service-layer/workspace/</reportDir>
+          <reportFiles>cs_summary_restfulphalcon.txt</reportFiles>
+          <keepAll>false</keepAll>
           <allowMissing>false</allowMissing>
           <wrapperName>htmlpublisher-wrapper.html</wrapperName>
         </htmlpublisher.HtmlPublisherTarget>
